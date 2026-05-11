@@ -2,7 +2,7 @@ from utils import mobius_transform, stereographic, inverse_stereographic, find_f
 import pyvista as pv
 import numpy as np
 
-def mobius_plot(a,b,c,d, theta_resolution, phi_resolution):
+def mobius_plot(a,b,c,d, theta_resolution=20, phi_resolution=20):
 
     sphere = pv.Sphere(radius=1.0, theta_resolution=theta_resolution, phi_resolution=phi_resolution)
     z_points = stereographic(*sphere.points.T)
@@ -44,6 +44,3 @@ def mobius_plot(a,b,c,d, theta_resolution, phi_resolution):
 
     
     plotter.show()
-
-a, b, c, d = complex(1, 1.5), 0, 0, 2
-mobius_plot(a,b,c,d,20,20)
