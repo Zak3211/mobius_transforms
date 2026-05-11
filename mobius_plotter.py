@@ -2,9 +2,9 @@ from utils import mobius_transform, stereographic, inverse_stereographic, find_f
 import pyvista as pv
 import numpy as np
 
-def mobius_plot(a,b,c,d, theta_resolution=20, phi_resolution=20):
+def mobius_plot(a,b,c,d):
 
-    sphere = pv.Sphere(radius=1.0, theta_resolution=theta_resolution, phi_resolution=phi_resolution)
+    sphere = pv.Icosphere(radius=1.0,nsub=2)
     z_points = stereographic(*sphere.points.T)
     w_points = mobius_transform(z_points, a, b, c, d)
 
