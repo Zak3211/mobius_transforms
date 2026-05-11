@@ -9,6 +9,9 @@ def mobius_transform(z, a, b, c, d):
     with np.errstate(divide='ignore', invalid='ignore'): # Suppresses division by zero warnings
         return (a * z + b) / (c * z + d)
 
+def is_identity(a,b,c,d):
+    return b==0 and c==0 and a==d
+
 def stereographic(x1, x2, x3):
     """Projects R^3 -> C_inf"""
     with np.errstate(divide='ignore', invalid='ignore'): # Suppresses division by zero warnings
