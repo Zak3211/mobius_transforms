@@ -2,6 +2,10 @@
 
 A Python-based tool for visualizing **Möbius Transformations** on the Riemann Sphere ($\mathbb{S}^2$). This project uses stereographic projection to map complex functions onto a 3D spherical surface, representing the transformation as a conformal vector field and a warped grid.
 
+<p align="center">
+  <img width="668" height="463" src="https://github.com/user-attachments/assets/222bbf90-a51a-48d7-9503-4f8719d3c107" />
+</p>
+
 ## The Mathematics
 A Möbius transformation is a bijective conformal map of the Riemann sphere onto itself, defined by the following rational function:
 
