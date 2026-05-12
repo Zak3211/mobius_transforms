@@ -1,33 +1,28 @@
-from utils import mobius_transform, stereographic, inverse_stereographic, find_fixed_points, is_identity
+from utils import stereographic, inverse_stereographic, Mobius
 import pyvista as pv
 import numpy as np
 
-def mobius_plot(a,b,c,d):
+def mobius_plot(a,b,c,d, r=0.01):
+
+    f = Mobius(a,b,c,d)
     
-    
-    fixed_z = find_fixed_points(a, b, c, d)
-    fixed_coords = inverse_stereographic(np.array(fixed_z))
+    fixed_z = f.get_fixed_points()
+    fixed_coords = inverse_stereographic(fixed_z)
 
-    sphere = pv.Icosphere(radius=1.0,nsub=1)
-
-    # Logic to remove vectors on the fixed points
-    temp_sphere=np.True_
-
-    for i in range(np.shape(sphere.points)[0]):
-        if (~np.all((np.round(sphere.points,6)[i]==np.round(fixed_coords[0,:],6))) and ~np.all((np.round(sphere.points,6)[i]==np.round(fixed_coords[1,:],6)))) and temp_sphere.dtype!='bool_':
-            temp_sphere=np.vstack((temp_sphere,sphere.points[i]))
-        elif (~np.all((np.round(sphere.points,6)[i]==np.round(fixed_coords[0,:],6))) and ~np.all((np.round(sphere.points,6)[i]==np.round(fixed_coords[1,:],6)))) and temp_sphere.dtype=='bool_':
-            temp_sphere=sphere.points[i]
-
-    sphere.points=temp_sphere
-
+    sphere = pv.Icosphere(radius=1.0,nsub=3)
     z_points = stereographic(*sphere.points.T)
-    w_points = mobius_transform(z_points, a, b, c, d)
+    w_points = f.apply_mobius(z_points)
 
     transformed_coords = inverse_stereographic(w_points)
-    sphere["vectors"] = transformed_coords - sphere.points
+    vectors = transformed_coords - sphere.points
 
+    if not f.is_identity() and len(fixed_coords) > 0:
+        distances = np.linalg.norm(sphere.points[:, None, :] - fixed_coords[None, :, :], axis=2)
+        min_distance = np.min(distances, axis=1)
+        near_fixed = min_distance < r
+        vectors[near_fixed] = 0.0
 
+    sphere["vectors"] = vectors
 
     plotter = pv.Plotter()
     arrows = sphere.glyph(orient="vectors", scale=True, factor=0.2)
@@ -54,9 +49,8 @@ def mobius_plot(a,b,c,d):
     )
 
     # Adding fixed points
-    if is_identity(a,b,c,d) == False:
+    if f.is_identity() == False:
         for i, coord in enumerate(fixed_coords):
-            print('hi')
             point_mesh = pv.Sphere(radius=0.01, center=coord)
             plotter.add_mesh(point_mesh, color="red", label=f"Fixed Point {i+1}" if i==0 else "")
 
