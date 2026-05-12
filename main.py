@@ -6,4 +6,4 @@ c = complex(0, 0)
 d = complex(1, 0)
 
 f = Mobius(a, b, c, d)
-f.plot()
+f.plot
