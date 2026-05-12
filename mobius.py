@@ -135,7 +135,7 @@ class Mobius:
         def neg_dist(params):
             """Helper function to ..."""
             θ, φ = params
-            z = 0 if θ == inf else z = 1/np.tan(θ/2)*np.exp(1j*φ)
+            z = 0 if θ == inf else 1/np.tan(θ/2)*np.exp(1j*φ)
             return -σ_C(self.apply_mobius(z),other.apply_mobius(z))
         
         if (self@other).is_identity(): 
