@@ -21,8 +21,7 @@ def inverse_stereographic(z):
 
     return np.column_stack((x1, x2, x3))
 
-# should this be labeled as: Currently Redundant function,
-# or is its use in a redundent function mean it doesn't get the label?
+# Currently Redundant function
 
 def σ_C(z,w):
     """chordal metric on C"""
