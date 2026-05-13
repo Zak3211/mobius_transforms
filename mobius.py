@@ -76,7 +76,7 @@ class Mobius:
             z = eigenvectors[0, :] / eigenvectors[1, :] #[0,0]/[1,0] and [0,1]/[1,1]
         return z #[z1, z2]
 
-    def plot(self, vector_scale_factor=0.2, vector_scaled=True):
+    def plot(self, vectors_scaled=True):
     
         fixed_z = self.get_fixed_points()
         fixed_coords = inverse_stereographic(fixed_z)
@@ -97,7 +97,7 @@ class Mobius:
         sphere["vectors"] = vectors
 
         plotter = pv.Plotter()
-        arrows = sphere.glyph(orient="vectors", scale=vector_scaled, factor=vector_scale_factor)
+        arrows = sphere.glyph(orient="vectors", scale=vectors_scaled, factor=0.1)
         plotter.add_mesh(arrows, color="grey")
         plotter.add_title("Möbius Transformation on S2")
 

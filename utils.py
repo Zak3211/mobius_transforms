@@ -1,12 +1,6 @@
 import numpy as np
 from numpy import linalg as la
 
-def σ_C(z,w):
-    """chordal metric on C"""
-    Z = inverse_stereographic(z)
-    W = inverse_stereographic(w)
-    return la.norm(Z-W)
-
 def stereographic(x1, x2, x3):
     """Projects R^3 -> C_inf"""
     with np.errstate(divide='ignore', invalid='ignore'): # Suppresses division by zero warnings
