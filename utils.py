@@ -26,3 +26,12 @@ def inverse_stereographic(z):
         x3 = np.where(is_inf, 1, (mag_sq - 1) / denom)
 
     return np.column_stack((x1, x2, x3))
+
+# should this be labeled as: Currently Redundant function,
+# or is its use in a redundent function mean it doesn't get the label?
+
+def σ_C(z,w):
+    """chordal metric on C"""
+    Z = inverse_stereographic(z)
+    W = inverse_stereographic(w)
+    return la.norm(Z-W)

@@ -6,6 +6,7 @@ import numpy as np
 from utils import σ_C, stereographic, inverse_stereographic
 import pyvista as pv
 
+
 # Our infinity element in C_inf
 inf = complex(float('inf'), float('inf'))
 
@@ -29,6 +30,7 @@ class Mobius:
     def GL_2_C_to_Mobius(M):
         """GL(2,C) to Mobius transformation (obvious homomorphism)"""
         return Mobius(M[0,0],M[0,1],M[1,0],M[0,0])
+    
     def get_coefficients(self):
         return np.array([self.a,self.b,self.c,self.d])
 
@@ -48,6 +50,11 @@ class Mobius:
         """Basic Mobius Transform on z"""
         with np.errstate(divide='ignore', invalid='ignore'): # Suppresses division by zero warnings
             return (self.a * z + self.b) / (self.c * z + self.d)
+    
+    def apply_inverse_mobius(self, z:complex):
+        """Basic inver Mobius Transform on z"""
+        with np.errstate(divide='ignore', invalid='ignore'): # Suppresses division by zero warnings
+            return (self.d * z - self.b) / (-self.c * z + self.a)
 
     def get_conjugacy_class(self):
         """
@@ -69,7 +76,7 @@ class Mobius:
             z = eigenvectors[0, :] / eigenvectors[1, :] #[0,0]/[1,0] and [0,1]/[1,1]
         return z #[z1, z2]
 
-    def plot(self):
+    def plot(self, vector_scale_factor=0.2, vector_scaled=True):
     
         fixed_z = self.get_fixed_points()
         fixed_coords = inverse_stereographic(fixed_z)
@@ -90,7 +97,7 @@ class Mobius:
         sphere["vectors"] = vectors
 
         plotter = pv.Plotter()
-        arrows = sphere.glyph(orient="vectors", scale=True, factor=0.2)
+        arrows = sphere.glyph(orient="vectors", scale=vector_scaled, factor=vector_scale_factor)
         plotter.add_mesh(arrows, color="grey")
         plotter.add_title("Möbius Transformation on S2")
 
@@ -120,8 +127,7 @@ class Mobius:
                 plotter.add_mesh(point_mesh, color="red", label=f"Fixed Point {i+1}" if i==0 else "")
         
         plotter.show()
-
-
+  
     # Currently Redundant Methods
 
     def uniform_metric(self,other:'Mobius'):
