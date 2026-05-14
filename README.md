@@ -14,10 +14,10 @@ $$f(z) = \frac{az + b}{cz + d}$$
 where $z, a, b, c, d \in \mathbb{C}$ and $ad - bc \neq 0$.
 
 ## Installation
-This project requires **NumPy** for numerical computations and **PyVista** for 3D rendering. Install the dependencies using your terminal:
+This project requires **NumPy** for numerical computations and **PyVista** for 3D rendering . Install the dependencies using your terminal:
 
 ```powershell
-py -m pip install numpy pyvista
+py -m pip install numpy pyvista scipy
 ```
 
 ## Usage
